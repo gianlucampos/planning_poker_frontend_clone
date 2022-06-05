@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/jogador_widget.dart';
+import 'package:planning_poker_flutter/widgets/stop_watch_widget.dart';
 
 import '../widgets/mesa_widget.dart';
 
@@ -38,7 +39,8 @@ class TelaVoto extends StatelessWidget {
             ),
           ],
         ),
-        MesaWidget()
+        MesaWidget(),
+        StopWatchWidget()
       ]),
     );
   }
