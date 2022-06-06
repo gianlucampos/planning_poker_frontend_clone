@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/jogador_widget.dart';
-import 'package:planning_poker_flutter/widgets/stop_watch_widget.dart';
 
 import '../widgets/mesa_widget.dart';
 
@@ -15,14 +14,14 @@ class AppWidget extends StatelessWidget {
         appBar: AppBar(
           title: Text('Free Planning Poker'),
         ),
-        body: TelaVoto(),
+        body: HomePage(),
       ),
     );
   }
 }
 
-class TelaVoto extends StatelessWidget {
-  const TelaVoto({
+class HomePage extends StatelessWidget {
+  const HomePage({
     Key? key,
   }) : super(key: key);
 
@@ -40,7 +39,6 @@ class TelaVoto extends StatelessWidget {
           ],
         ),
         MesaWidget(),
-        StopWatchWidget()
       ]),
     );
   }
