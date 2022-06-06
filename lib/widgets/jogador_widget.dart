@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 
 class JogadorWidget extends StatefulWidget {
   final String nome;
@@ -13,6 +14,7 @@ class JogadorWidget extends StatefulWidget {
 
 class _JogadorWidgetState extends State<JogadorWidget> {
   bool isVotoExibido = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +23,7 @@ class _JogadorWidgetState extends State<JogadorWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            isVotoExibido ? CardVotado() : CardBranco(),
+            RotateWidget(),
             SizedBox(height: 15),
             Text(
               widget.nome,
@@ -32,39 +34,4 @@ class _JogadorWidgetState extends State<JogadorWidget> {
     );
   }
 
-  void mostrarVoto() {
-    setState(() {
-      isVotoExibido = true;
-    });
-  }
-
-  Widget CardVotado() {
-    return Container(
-      width: 90,
-      height: 140,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent, width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      child: Center(
-        child: Text(
-          widget.voto,
-          textScaleFactor: 2,
-          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-
-  Widget CardBranco() {
-    return Container(
-      width: 90,
-      height: 140,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        border: Border.all(color: Colors.grey, width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-    );
-  }
 }
