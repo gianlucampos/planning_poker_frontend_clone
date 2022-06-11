@@ -1,7 +1,8 @@
-import 'dart:async';
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/controller/jogador_controller.dart';
+import 'package:provider/provider.dart';
 
 class RotateWidget extends StatefulWidget {
   const RotateWidget({Key? key}) : super(key: key);
@@ -11,79 +12,31 @@ class RotateWidget extends StatefulWidget {
 }
 
 class _RotateWidgetState extends State<RotateWidget> {
-  double angle = 0.0;
-  double speed = 0.05;
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void rotate() {
-    angle = angle >= 2 ? 0 : angle;
-    setState(() {
-      angle += speed;
-    });
-    if (angle >= 1) stop();
-  }
-
-  void start() {
-    if (_timer == null) {
-      _timer = Timer.periodic(const Duration(milliseconds: 5), (_) => rotate());
-    }
-  }
-
-  void stop() {
-    _timer?.cancel();
-    _timer = null;
-  }
-
-  void reset() {
-    super.setState(() {
-      angle = 0;
-    });
-  }
-
-  // 0.0 - 0.5 -> nao mostra
-  // 0.5 - 1.5 -> mostra
-  bool isBackImage(double ang) {
-    return ang >= 0.5 && ang <= 1.5;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          TextButton(
-            onPressed: start,
-            child: Text("Start"),
-          ),
-          TextButton(
-            onPressed: reset,
-            child: Text("Reset"),
-          ),
-          buildTransform(),
-          // buildTransform(),
+          Transform(
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.001)
+              ..rotateY(Math.pi *
+                  Provider.of<JogadorController>(context, listen: true).angle),
+            alignment: Alignment.center,
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()..rotateY(Math.pi),
+                  child: simpleContainer(),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
-  }
-
-  Transform buildTransform() {
-    return Transform(
-        transform: Matrix4.identity()
-          ..setEntry(3, 2, 0.001)
-          ..rotateY(Math.pi * angle),
-        alignment: Alignment.center,
-        child: Align(
-            alignment: Alignment.center,
-            child: Container(
-                child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()..rotateY(Math.pi),
-                    child: simpleContainer()))));
   }
 
   Widget CardVotado() {
@@ -117,6 +70,8 @@ class _RotateWidgetState extends State<RotateWidget> {
   }
 
   Widget simpleContainer() {
-    return isBackImage(angle) ? CardVotado() : CardBranco();
+    return Provider.of<JogadorController>(context, listen: false).flipCard()
+        ? CardVotado()
+        : CardBranco();
   }
 }

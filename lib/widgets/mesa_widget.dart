@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/controller/contador_controller.dart';
+import 'package:planning_poker_flutter/controller/jogador_controller.dart';
 import 'package:planning_poker_flutter/controller/mesa_controller.dart';
+import 'package:provider/provider.dart';
 
 import 'contador_widget.dart';
 
@@ -27,6 +29,7 @@ class _MesaWidgetState extends State<MesaWidget> {
       if (contadorController.decDuration.inSeconds == 1) {
         mesaController.changeStatus(GameStatus.REVEAL_CARDS);
         contadorController.reset();
+        Provider.of<JogadorController>(context, listen: false).start();
       }
     });
   }

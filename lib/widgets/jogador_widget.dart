@@ -13,7 +13,6 @@ class JogadorWidget extends StatefulWidget {
 }
 
 class _JogadorWidgetState extends State<JogadorWidget> {
-  bool isVotoExibido = false;
 
   @override
   Widget build(BuildContext context) {
