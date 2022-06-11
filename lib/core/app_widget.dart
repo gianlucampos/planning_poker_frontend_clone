@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
           children: [
             JogadorWidget(
               nome: "Fulano",
-              voto: "PP",
+              voto: "G",
             ),
           ],
         ),
