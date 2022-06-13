@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/jogador_provider.dart';
+import '../provider/rotate_card_provider.dart';
 
 class JogadorWidget extends StatelessWidget {
   final String nome;
@@ -13,15 +13,15 @@ class JogadorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isVoted =
-        Provider.of<JogadorProvider>(context, listen: true).flipCard();
+    bool shouldFlip =
+        Provider.of<RotateCardProvider>(context, listen: true).shouldFlip();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RotateWidget(card: isVoted ? CardVotado() : CardBranco()),
+            RotateWidget(card: shouldFlip ? CardVoto() : CardBranco()),
             SizedBox(height: 15),
             Text(
               nome,
@@ -32,7 +32,7 @@ class JogadorWidget extends StatelessWidget {
     );
   }
 
-  Widget CardVotado() {
+  Widget CardVoto() {
     return Container(
       width: 90,
       height: 140,

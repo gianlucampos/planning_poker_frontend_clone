@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 
-class JogadorProvider extends ChangeNotifier {
+class RotateCardProvider extends ChangeNotifier {
   double angle = 0.0;
   double speed = 0.05;
   Timer? _timer;
-  bool isVoted = false;
 
   void rotate() {
     angle = angle >= 2 ? 0 : angle;
@@ -40,8 +39,7 @@ class JogadorProvider extends ChangeNotifier {
 
   // 0.0 - 0.5 -> nao mostra
   // 0.5 - 1.5 -> mostra
-  bool flipCard() {
-    isVoted = angle >= 0.5 && angle <= 1.5;
-    return isVoted;
+  bool shouldFlip() {
+    return angle >= 0.5 && angle <= 1.5;
   }
 }

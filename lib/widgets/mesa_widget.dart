@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/provider/contador_provider.dart';
-import 'package:planning_poker_flutter/provider/jogador_provider.dart';
+import 'package:planning_poker_flutter/provider/rotate_card_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../models/game_status.dart';
@@ -23,7 +23,7 @@ class _MesaWidgetState extends State<MesaWidget> {
     contador.addListener(() {
       if (contador.segundos == 0) {
         gameStatus = GameStatus.NEW_GAME;
-        Provider.of<JogadorProvider>(context, listen: false).revelarCard();
+        Provider.of<RotateCardProvider>(context, listen: false).revelarCard();
       }
     });
   }
@@ -39,7 +39,7 @@ class _MesaWidgetState extends State<MesaWidget> {
         contador.start();
         break;
       case GameStatus.NEW_GAME:
-        Provider.of<JogadorProvider>(context, listen: false).reset();
+        Provider.of<RotateCardProvider>(context, listen: false).reset();
         setState(() {
           gameStatus = GameStatus.VOTING;
         });
