@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/jogador_widget.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/jogador_provider.dart';
 import '../widgets/mesa_widget.dart';
 
 class AppWidget extends StatelessWidget {
@@ -31,12 +33,20 @@ class HomePage extends StatelessWidget {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            JogadorWidget(
-              nome: "Fulano",
-              voto: "G",
-            ),
-          ],
+          children: new List.generate(
+            4,
+                (index) =>
+                JogadorWidget(
+                  nome: "Fulano",
+                  voto: "G",
+                ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Provider.of<JogadorProvider>(context, listen: false).reset();
+          },
+          child: Text('Reset'),
         ),
         MesaWidget(),
       ]),

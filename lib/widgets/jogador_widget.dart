@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/jogador_controller.dart';
+import '../provider/jogador_provider.dart';
 
 class JogadorWidget extends StatelessWidget {
   final String nome;
@@ -14,7 +14,7 @@ class JogadorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isVoted =
-        Provider.of<JogadorController>(context, listen: true).flipCard();
+        Provider.of<JogadorProvider>(context, listen: true).flipCard();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(

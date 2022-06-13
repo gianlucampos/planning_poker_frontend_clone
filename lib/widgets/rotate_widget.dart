@@ -1,7 +1,7 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/controller/jogador_controller.dart';
+import 'package:planning_poker_flutter/provider/jogador_provider.dart';
 import 'package:provider/provider.dart';
 
 class RotateWidget extends StatefulWidget {
@@ -23,7 +23,7 @@ class _RotateWidgetState extends State<RotateWidget> {
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.001)
               ..rotateY(Math.pi *
-                  Provider.of<JogadorController>(context, listen: false).angle),
+                  Provider.of<JogadorProvider>(context, listen: false).angle),
             alignment: Alignment.center,
             child: Align(
               alignment: Alignment.center,

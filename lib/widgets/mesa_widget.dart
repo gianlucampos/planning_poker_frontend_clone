@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/controller/contador_controller.dart';
-import 'package:planning_poker_flutter/controller/jogador_controller.dart';
-import 'package:planning_poker_flutter/controller/mesa_controller.dart';
+import 'package:planning_poker_flutter/provider/contador_provider.dart';
+import 'package:planning_poker_flutter/provider/jogador_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'contador_widget.dart';
+import '../models/game_status.dart';
 
 class MesaWidget extends StatefulWidget {
   const MesaWidget({Key? key}) : super(key: key);
@@ -14,24 +13,38 @@ class MesaWidget extends StatefulWidget {
 }
 
 class _MesaWidgetState extends State<MesaWidget> {
-  final mesaController = MesaController();
-  final contadorController = ContadorController();
-
-  String get tableMessage => mesaController.tableMessage;
+  late ContadorProvider contador =
+      Provider.of<ContadorProvider>(context, listen: false);
+  GameStatus gameStatus = GameStatus.REVEAL_CARDS;
 
   @override
   void initState() {
     super.initState();
-    mesaController.addListener(() {
-      setState(() {});
-    });
-    contadorController.addListener(() {
-      if (contadorController.decDuration.inSeconds == 1) {
-        mesaController.changeStatus(GameStatus.REVEAL_CARDS);
-        contadorController.reset();
-        Provider.of<JogadorController>(context, listen: false).start();
+    contador.addListener(() {
+      if (contador.segundos == 0) {
+        gameStatus = GameStatus.NEW_GAME;
+        Provider.of<JogadorProvider>(context, listen: false).revelarCard();
       }
     });
+  }
+
+  void statusController() {
+    switch (gameStatus) {
+      case GameStatus.VOTING:
+        setState(() {
+          gameStatus = GameStatus.REVEAL_CARDS;
+        });
+        break;
+      case GameStatus.REVEAL_CARDS:
+        contador.start();
+        break;
+      case GameStatus.NEW_GAME:
+        Provider.of<JogadorProvider>(context, listen: false).reset();
+        setState(() {
+          gameStatus = GameStatus.VOTING;
+        });
+        break;
+    }
   }
 
   @override
@@ -46,7 +59,7 @@ class _MesaWidgetState extends State<MesaWidget> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 150),
         child: TextButton(
-          onPressed: mesaController.startCount,
+          onPressed: statusController,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.blueGrey,
@@ -55,26 +68,25 @@ class _MesaWidgetState extends State<MesaWidget> {
             child: SizedBox(
               width: 200,
               height: 200,
-              child: mesaPlaceholder(),
+              child: Consumer<ContadorProvider>(
+                builder: (context, contadorProvider, widget) {
+                  return Center(
+                    child: Text(
+                      contadorProvider.isActive
+                          ? '${contadorProvider.segundos}'
+                          : '${gameStatus.value}',
+                      textScaleFactor: 1.5,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget mesaPlaceholder() {
-    if (tableMessage == GameStatus.START_COUNT) {
-      return Center(
-          child: ContadorWidget(
-        contadorController: contadorController,
-      ));
-    }
-    return Center(
-      child: Text(
-        tableMessage,
-        textScaleFactor: 1.5,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 
-class JogadorController extends ChangeNotifier {
+class JogadorProvider extends ChangeNotifier {
   double angle = 0.0;
   double speed = 0.05;
   Timer? _timer;
@@ -15,7 +15,7 @@ class JogadorController extends ChangeNotifier {
     if (angle >= 1) stop();
   }
 
-  void start() {
+  void revelarCard() {
     if (_timer == null) {
       _timer = Timer.periodic(const Duration(milliseconds: 5), (_) => rotate());
     }
