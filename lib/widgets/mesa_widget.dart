@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/provider/contador_provider.dart';
+import 'package:planning_poker_flutter/provider/game_status_provider.dart';
 import 'package:planning_poker_flutter/provider/rotate_card_provider.dart';
+import 'package:planning_poker_flutter/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../models/game_status.dart';
@@ -15,14 +17,21 @@ class MesaWidget extends StatefulWidget {
 class _MesaWidgetState extends State<MesaWidget> {
   late ContadorProvider contador =
       Provider.of<ContadorProvider>(context, listen: false);
-  GameStatus gameStatus = GameStatus.REVEAL_CARDS;
+  late GameStatusProvider gameStatusProvider =
+      Provider.of<GameStatusProvider>(context, listen: false);
+  late GameStatus gameStatus = gameStatusProvider.gameStatus;
 
   @override
   void initState() {
     super.initState();
+    gameStatusProvider.addListener(() {
+      setState(() {
+        gameStatus = gameStatusProvider.gameStatus;
+      });
+    });
     contador.addListener(() {
       if (contador.segundos == 0) {
-        gameStatus = GameStatus.NEW_GAME;
+        gameStatusProvider.changeStatus(GameStatus.NEW_GAME);
         Provider.of<RotateCardProvider>(context, listen: false).revelarCard();
       }
     });
@@ -31,18 +40,15 @@ class _MesaWidgetState extends State<MesaWidget> {
   void statusController() {
     switch (gameStatus) {
       case GameStatus.VOTING:
-        setState(() {
-          gameStatus = GameStatus.REVEAL_CARDS;
-        });
+        gameStatusProvider.changeStatus(GameStatus.REVEAL_CARDS);
         break;
       case GameStatus.REVEAL_CARDS:
         contador.start();
         break;
       case GameStatus.NEW_GAME:
+        gameStatusProvider.changeStatus(GameStatus.VOTING);
         Provider.of<RotateCardProvider>(context, listen: false).reset();
-        setState(() {
-          gameStatus = GameStatus.VOTING;
-        });
+        Provider.of<VotoProvider>(context, listen: false).reset();
         break;
     }
   }

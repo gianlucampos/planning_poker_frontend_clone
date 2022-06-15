@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/models/game_status.dart';
+import 'package:planning_poker_flutter/provider/game_status_provider.dart';
 import 'package:planning_poker_flutter/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,27 +16,49 @@ class CardWidget extends StatefulWidget {
 class _CardWidgetState extends State<CardWidget> {
   Color _background = Colors.white;
   Color _textColor = Colors.blue;
+  bool isVoted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    VotoProvider votoProvider =
+        Provider.of<VotoProvider>(context, listen: false);
+    votoProvider.addListener(() {
+      setState(() {
+        print(votoProvider.toString());
+        //TODO Deixar controle de voto no widget pai
+        if (votoProvider.isReset) {
+          _background = Colors.white;
+          _textColor = Colors.blue;
+        }
+        Provider.of<GameStatusProvider>(context, listen: false).changeStatus(
+            votoProvider.voto != null
+                ? GameStatus.REVEAL_CARDS
+                : GameStatus.VOTING);
+      });
+    });
+  }
 
   void voteController() {
-    Provider.of<VotoProvider>(context, listen: false).isVoted
-        ? _swapColors()
-        : _defaultColors();
+    isVoted = !isVoted;
+    isVoted ? _swapColors() : _defaultColors();
   }
 
   void _defaultColors() {
-    setState(() {
-      _background = Colors.white;
-      _textColor = Colors.blue;
-      Provider.of<VotoProvider>(context, listen: false).vote(widget.voto);
-    });
+    _background = Colors.white;
+    _textColor = Colors.blue;
+    Provider.of<VotoProvider>(context, listen: false).changeVoto(null);
   }
 
   void _swapColors() {
-    setState(() {
-      _background = Colors.blue;
-      _textColor = Colors.white;
-      Provider.of<VotoProvider>(context, listen: false).vote(widget.voto);
-    });
+    if (!Provider.of<VotoProvider>(context, listen: false).isFirstVote &&
+        Provider.of<VotoProvider>(context, listen: false).voto != null) {
+      isVoted = false;
+      return;
+    }
+    _background = Colors.blue;
+    _textColor = Colors.white;
+    Provider.of<VotoProvider>(context, listen: false).changeVoto(widget.voto);
   }
 
   @override
