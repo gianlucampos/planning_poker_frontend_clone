@@ -26,7 +26,7 @@ class _ListWidgetsState extends State<ListWidgets> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       loadPlayers();
     });
   }

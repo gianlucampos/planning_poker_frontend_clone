@@ -12,4 +12,17 @@ class PlayerRepository {
     var players = response.data.map((e) => PlayerModel.fromMap(e));
     return List<PlayerModel>.from(players);
   }
+
+  Future<List<PlayerModel>> listPlayersMock() async {
+    return [
+      PlayerModel(name: 'Gianluca', vote: 'PP'),
+      PlayerModel(name: 'Victor', vote: 'PP'),
+      PlayerModel(name: 'Caio', vote: 'PP'),
+      PlayerModel(name: 'Ricardo', vote: 'P'),
+      PlayerModel(name: 'Bruno', vote: 'P'),
+      PlayerModel(name: 'Bruna', vote: 'P'),
+      PlayerModel(name: 'Renata', vote: 'M'),
+      PlayerModel(name: 'Geovanni', vote: 'G'),
+    ];
+  }
 }

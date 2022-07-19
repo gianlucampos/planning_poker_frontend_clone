@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/rotate_card_provider.dart';
+import '../../provider/rotate_card_provider.dart';
 
 class JogadorWidget extends StatelessWidget {
+  //TODO: Passar objeto PlayerModel ao inves de Strings [nome e voto]
   final String nome;
   final String voto;
 

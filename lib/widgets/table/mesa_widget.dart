@@ -5,7 +5,7 @@ import 'package:planning_poker_flutter/provider/rotate_card_provider.dart';
 import 'package:planning_poker_flutter/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../models/game_status.dart';
+import '../../models/game_status.dart';
 
 class MesaWidget extends StatefulWidget {
   const MesaWidget({Key? key}) : super(key: key);
