@@ -68,17 +68,17 @@ class _CardWidgetState extends State<CardWidget> {
       child: InkWell(
         onTap: voteController,
         child: Container(
-          width: 85,
-          height: 140,
+          width: 75,
+          height: 120,
           decoration: BoxDecoration(
             color: _background,
             border: Border.all(color: Colors.blueAccent, width: 3),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
           child: Center(
             child: Text(
               widget.voto,
-              textScaleFactor: 2.5,
+              textScaleFactor: 2,
               style: TextStyle(color: _textColor, fontWeight: FontWeight.bold),
             ),
           ),

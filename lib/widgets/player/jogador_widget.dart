@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/models/player_model.dart';
 import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/rotate_card_provider.dart';
 
 class JogadorWidget extends StatelessWidget {
-  //TODO: Passar objeto PlayerModel ao inves de Strings [nome e voto]
-  final String nome;
-  final String voto;
+  final PlayerModel player;
 
-  const JogadorWidget({Key? key, required this.nome, required this.voto})
+  const JogadorWidget({Key? key, required this.player})
       : super(key: key);
 
   @override
@@ -25,26 +24,27 @@ class JogadorWidget extends StatelessWidget {
             RotateWidget(card: shouldFlip ? CardVoto() : CardBranco()),
             SizedBox(height: 15),
             Text(
-              nome,
-              textScaleFactor: 1.5,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              player.name!,
+              textScaleFactor: 1,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             )
           ]),
     );
   }
 
+  //TODO: implementar 1 widget com herança
   Widget CardVoto() {
     return Container(
-      width: 90,
-      height: 140,
+      width: 45,
+      height: 70,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blueAccent, width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
       child: Center(
         child: Text(
-          voto,
-          textScaleFactor: 2,
+          player.vote!,
+          textScaleFactor: 1.5,
           style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
         ),
       ),
@@ -53,12 +53,12 @@ class JogadorWidget extends StatelessWidget {
 
   Widget CardBranco() {
     return Container(
-      width: 90,
-      height: 140,
+      width: 45,
+      height: 70,
       decoration: BoxDecoration(
         color: Colors.grey[300],
         border: Border.all(color: Colors.grey, width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
     );
   }

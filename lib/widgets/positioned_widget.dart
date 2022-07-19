@@ -75,34 +75,32 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   }
 
   void addPlayer(PlayerModel player) {
-    String vote = player.vote!;
-    String name = player.name!;
 
-    buildTop(vote, name);
+    buildTop(player);
     if (isAdded) {
       isAdded = false;
       return;
     }
-    buildLeft(vote, name);
+    buildLeft(player);
     if (isAdded) {
       isAdded = false;
       return;
     }
-    buildRight(vote, name);
+    buildRight(player);
     if (isAdded) {
       isAdded = false;
       return;
     }
-    buildBottom(vote, name);
+    buildBottom(player);
     isAdded = false;
   }
 
-  void buildTop(String vote, String nome) {
+  void buildTop(PlayerModel player) {
     if (widgetsTop.length >= 8) return;
     if (direction == Direction.TOP) {
       var p = Positioned(
         left: topLeftRight += 100.00,
-        child: JogadorWidget(nome: nome, voto: vote),
+        child: JogadorWidget(player: player),
       );
       widgetsTop.add(p);
       direction = Direction.BOTTOM;
@@ -111,11 +109,11 @@ class _PositionedWidgetState extends State<PositionedWidget> {
     }
   }
 
-  void buildLeft(String vote, String nome) {
+  void buildLeft(PlayerModel player) {
     if (direction == Direction.LEFT) {
       widgetsLeft.add(Positioned(
         top: topLeftBottom += 125.00,
-        child: JogadorWidget(nome: nome, voto: vote),
+        child: JogadorWidget(player: player),
       ));
       direction = widgetsRight.length < 3 ? Direction.RIGHT : Direction.BOTTOM;
       isAdded = true;
@@ -123,12 +121,12 @@ class _PositionedWidgetState extends State<PositionedWidget> {
     }
   }
 
-  void buildRight(String vote, String name) {
+  void buildRight(PlayerModel player) {
     if (direction == Direction.RIGHT) {
       widgetsRight.add(Positioned(
         left: MediaQuery.of(context).size.width * 0.47,
         top: bottomRightTop += 125.00,
-        child: JogadorWidget(nome: name, voto: vote),
+        child: JogadorWidget(player: player),
       ));
       super.setState(() {});
       direction = Direction.TOP;
@@ -136,13 +134,13 @@ class _PositionedWidgetState extends State<PositionedWidget> {
     }
   }
 
-  void buildBottom(String vote, String name) {
+  void buildBottom(PlayerModel player) {
     if (widgetsBottom.length >= 8) return;
     if (direction == Direction.BOTTOM) {
       widgetsBottom.add(Positioned(
         top: MediaQuery.of(context).size.width * 0.24,
         left: bottomLeftRight += 100.00,
-        child: JogadorWidget(nome: name, voto: vote),
+        child: JogadorWidget(player: player),
       ));
       isAdded = true;
       direction = widgetsLeft.length < 3 ? Direction.LEFT : Direction.TOP;
