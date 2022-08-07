@@ -63,11 +63,26 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   }
 
   void loadPlayers() {
+    reset();
     gameProvider.players.forEach((player) {
       if (playersScreen.any((p) => p.name == player.name)) return;
       playersScreen.add(player);
       addPlayer(player);
     });
+  }
+
+  void reset() {
+    playersScreen = [];
+    direction = Direction.TOP;
+    isAdded = false;
+    topLeftRight = 0;
+    topLeftBottom = 0;
+    bottomRightTop = 0;
+    bottomLeftRight = 0;
+    widgetsTop = [];
+    widgetsBottom = [];
+    widgetsLeft = [];
+    widgetsRight = [];
   }
 
   void addPlayer(PlayerModel player) {

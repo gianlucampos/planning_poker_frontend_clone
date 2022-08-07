@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
               socketClient.send(destination: '/app/list');
             },
           ),
-          //TODO - Excluir nao atualiza em tempo real
           buildTextButton(
             text: "Remove player",
             function: () {
