@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/table/mesa_widget.dart';
 
 import '../core/globals.dart';
-import '../core/web_socket_config.dart';
 import '../models/player_model.dart';
 import 'player/jogador_widget.dart';
 
@@ -27,7 +26,6 @@ class PositionedWidget extends StatefulWidget {
 }
 
 class _PositionedWidgetState extends State<PositionedWidget> {
-  final socketClient = WebSocketConfig.stompClient;
   List<PlayerModel> playersScreen = [];
 
   @override
@@ -57,12 +55,6 @@ class _PositionedWidgetState extends State<PositionedWidget> {
               top: MediaQuery.of(context).size.width * 0.10,
               left: MediaQuery.of(context).size.width * 0.12,
               child: MesaWidget(),
-            ),
-            buildTextButton(
-              text: 'List Players',
-              function: () {
-                socketClient.send(destination: '/app/list');
-              },
             ),
           ],
         ),
@@ -149,22 +141,5 @@ class _PositionedWidgetState extends State<PositionedWidget> {
       direction = widgetsLeft.length < 3 ? Direction.LEFT : Direction.TOP;
       super.setState(() {});
     }
-  }
-
-  TextButton buildTextButton(
-      {required VoidCallback function, required String text}) {
-    return TextButton(
-      onPressed: () {
-        function.call();
-        super.setState(() {});
-      },
-      child: Container(
-        color: Colors.black12,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(text),
-        ),
-      ),
-    );
   }
 }
