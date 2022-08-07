@@ -3,7 +3,7 @@ import 'package:planning_poker_flutter/models/player_model.dart';
 
 class PlayerRepository {
   final Dio _dio;
-  final String _url_base = 'http://localhost:8080/v1/api/players';
+  final String _url_base = 'https://planning-poker-spring.herokuapp.com/v1/api/players';
 
   PlayerRepository(this._dio);
 

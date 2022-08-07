@@ -1,9 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/widgets/table/mesa_widget.dart';
 
+import '../core/globals.dart';
+import '../core/web_socket_config.dart';
 import '../models/player_model.dart';
-import '../repositories/player_repository.dart';
 import 'player/jogador_widget.dart';
 
 enum Direction { TOP, BOTTOM, LEFT, RIGHT }
@@ -27,20 +27,17 @@ class PositionedWidget extends StatefulWidget {
 }
 
 class _PositionedWidgetState extends State<PositionedWidget> {
-  final repository = PlayerRepository(Dio());
-  List<PlayerModel> listPlayers = [];
+  final socketClient = WebSocketConfig.stompClient;
+  List<PlayerModel> playersScreen = [];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      repository
-          // .listPlayers()
-          .listPlayersMock()
-          .then((value) => listPlayers = value)
-          .whenComplete(() => super.setState(() {
-                loadPlayers();
-              }));
+    socketClient.activate();
+    gameProvider.addListener(() {
+      setState(() {
+        loadPlayers();
+      });
     });
   }
 
@@ -61,21 +58,27 @@ class _PositionedWidgetState extends State<PositionedWidget> {
               left: MediaQuery.of(context).size.width * 0.12,
               child: MesaWidget(),
             ),
+            buildTextButton(
+              text: 'List Players',
+              function: () {
+                socketClient.send(destination: '/app/list');
+              },
+            ),
           ],
         ),
       ),
     );
-
   }
 
   void loadPlayers() {
-    listPlayers.forEach((player) {
+    gameProvider.players.forEach((player) {
+      if (playersScreen.any((p) => p.name == player.name)) return;
+      playersScreen.add(player);
       addPlayer(player);
     });
   }
 
   void addPlayer(PlayerModel player) {
-
     buildTop(player);
     if (isAdded) {
       isAdded = false;
@@ -146,5 +149,22 @@ class _PositionedWidgetState extends State<PositionedWidget> {
       direction = widgetsLeft.length < 3 ? Direction.LEFT : Direction.TOP;
       super.setState(() {});
     }
+  }
+
+  TextButton buildTextButton(
+      {required VoidCallback function, required String text}) {
+    return TextButton(
+      onPressed: () {
+        function.call();
+        super.setState(() {});
+      },
+      child: Container(
+        color: Colors.black12,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(text),
+        ),
+      ),
+    );
   }
 }
