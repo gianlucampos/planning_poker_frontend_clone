@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/models/player_model.dart';
-import 'package:planning_poker_flutter/widgets/positioned_widget.dart';
 
-import '../core/globals.dart';
+import '../../shared/core/globals.dart';
+import '../../shared/models/player_model.dart';
 import '../widgets/card/choose_card_widget.dart';
+import '../widgets/positioned_widget.dart';
 import '../widgets/utils/custom_text_buttom.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({
+class HomePageDesktop extends StatefulWidget {
+  HomePageDesktop({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageDesktop> createState() => _HomePageDesktopState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageDesktopState extends State<HomePageDesktop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/widgets/table/mesa_widget.dart';
 
-import '../core/globals.dart';
-import '../models/player_model.dart';
+import '../../shared/core/globals.dart';
+import '../../shared/models/player_model.dart';
 import 'player/jogador_widget.dart';
+import 'table/mesa_widget.dart';
 
 enum Direction { TOP, BOTTOM, LEFT, RIGHT }
 

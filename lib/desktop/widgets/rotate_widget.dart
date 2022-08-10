@@ -1,8 +1,9 @@
 import 'dart:math' as Math;
 
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/provider/rotate_card_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../shared/provider/rotate_card_provider.dart';
 
 class RotateWidget extends StatefulWidget {
   final Widget card;

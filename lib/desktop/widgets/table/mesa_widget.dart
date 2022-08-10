@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/provider/contador_provider.dart';
-import 'package:planning_poker_flutter/provider/game_status_provider.dart';
-import 'package:planning_poker_flutter/provider/rotate_card_provider.dart';
-import 'package:planning_poker_flutter/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/game_status.dart';
+import '../../../shared/models/game_status.dart';
+import '../../../shared/provider/contador_provider.dart';
+import '../../../shared/provider/game_status_provider.dart';
+import '../../../shared/provider/rotate_card_provider.dart';
+import '../../../shared/provider/voto_provider.dart';
+
 
 class MesaWidget extends StatefulWidget {
   const MesaWidget({Key? key}) : super(key: key);

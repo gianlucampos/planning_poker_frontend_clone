@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/models/player_model.dart';
-import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/rotate_card_provider.dart';
+import '../../../shared/models/player_model.dart';
+import '../../../shared/provider/rotate_card_provider.dart';
+import '../rotate_widget.dart';
 
 class JogadorWidget extends StatelessWidget {
   final PlayerModel player;
 
-  const JogadorWidget({Key? key, required this.player})
-      : super(key: key);
+  const JogadorWidget({Key? key, required this.player}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

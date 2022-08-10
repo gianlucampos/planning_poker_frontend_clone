@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/provider/contador_provider.dart';
-import 'package:planning_poker_flutter/provider/game_status_provider.dart';
-import 'package:planning_poker_flutter/provider/rotate_card_provider.dart';
-import 'package:planning_poker_flutter/provider/voto_provider.dart';
+import 'package:planning_poker_flutter/shared/core/app_widget.dart';
+import 'package:planning_poker_flutter/shared/provider/contador_provider.dart';
+import 'package:planning_poker_flutter/shared/provider/game_status_provider.dart';
+import 'package:planning_poker_flutter/shared/provider/rotate_card_provider.dart';
+import 'package:planning_poker_flutter/shared/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'core/app_widget.dart';
 
 void main() {
   runApp(

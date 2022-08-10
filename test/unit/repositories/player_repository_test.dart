@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:planning_poker_flutter/repositories/player_repository.dart';
+import 'package:planning_poker_flutter/shared/repositories/player_repository.dart';
 
 class DioMock extends Mock implements Dio {}
 
