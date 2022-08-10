@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/desktop/home/home_page_desktop.dart';
+import 'package:planning_poker_flutter/mobile/home/home_page_mobile.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class AppWidget extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: ResponsiveLayout(
           desktop: HomePageDesktop(),
-          mobile: HomePageDesktop(),
+          mobile: HomePageMobile(),
         ));
   }
 }

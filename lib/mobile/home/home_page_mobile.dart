@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import '../../shared/core/globals.dart';
 import '../../shared/models/player_model.dart';
 import '../../shared/utils/custom_text_buttom.dart';
-import '../widgets/card/choose_card_widget.dart';
 import '../widgets/positioned_widget.dart';
+import '../widgets/card/choose_card_widget.dart';
 
-class HomePageDesktop extends StatefulWidget {
-  HomePageDesktop({
+class HomePageMobile extends StatefulWidget {
+  HomePageMobile({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<HomePageDesktop> createState() => _HomePageDesktopState();
+  State<HomePageMobile> createState() => _HomePageMobileState();
 }
 
-class _HomePageDesktopState extends State<HomePageDesktop> {
+class _HomePageMobileState extends State<HomePageMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import '../../shared/core/globals.dart';
 import '../../shared/models/player_model.dart';
 import 'player/jogador_widget.dart';
-import 'table/mesa_widget.dart';
+import 'mesa/mesa_widget.dart';
 
-enum Direction { TOP, BOTTOM, LEFT, RIGHT }
+enum Direction { top, bottom, left, right }
 
-Direction direction = Direction.TOP;
+Direction direction = Direction.top;
 bool isAdded = false;
-double topLeftRight = 0;
+double spacer = 70;
+double topLeftRight = 50;
 double topLeftBottom = 0;
 double bottomRightTop = 0;
-double bottomLeftRight = 0;
+double bottomLeftRight = 50;
 List<Widget> widgetsTop = [];
 List<Widget> widgetsBottom = [];
 List<Widget> widgetsLeft = [];
@@ -42,18 +43,14 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        width: MediaQuery.of(context).size.width * 0.53,
+      child: SizedBox(
         child: Stack(
           children: [
             Stack(children: widgetsTop),
             Stack(children: widgetsLeft),
             Stack(children: widgetsRight),
             Stack(children: widgetsBottom),
-            Center(
-              child: MesaWidget(),
-            ),
+            const Center(child: MesaWidget()),
           ],
         ),
       ),
@@ -71,12 +68,12 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   void reset() {
     playersScreen = [];
-    direction = Direction.TOP;
+    direction = Direction.top;
     isAdded = false;
-    topLeftRight = 0;
+    topLeftRight = 50;
     topLeftBottom = 0;
     bottomRightTop = 0;
-    bottomLeftRight = 0;
+    bottomLeftRight = 50;
     widgetsTop = [];
     widgetsBottom = [];
     widgetsLeft = [];
@@ -104,54 +101,60 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   }
 
   void buildTop(PlayerModel player) {
-    if (widgetsTop.length >= 8) return;
-    if (direction == Direction.TOP) {
-      var p = Positioned(
-        left: topLeftRight += 100.00,
+    if (widgetsTop.length >= 5) return;
+    if (direction == Direction.top) {
+      topLeftRight =
+          widgetsTop.isEmpty ? topLeftRight : (topLeftRight + spacer);
+
+      var widget = Positioned(
+        top: MediaQuery.of(context).size.height * 0.05,
+        left: topLeftRight,
         child: JogadorWidget(player: player),
       );
-      widgetsTop.add(p);
-      direction = Direction.BOTTOM;
+      widgetsTop.add(widget);
+      direction = Direction.bottom;
       isAdded = true;
       super.setState(() {});
     }
   }
 
   void buildLeft(PlayerModel player) {
-    if (direction == Direction.LEFT) {
+    if (direction == Direction.left) {
       widgetsLeft.add(Positioned(
         top: topLeftBottom += 125.00,
         child: JogadorWidget(player: player),
       ));
-      direction = widgetsRight.length < 3 ? Direction.RIGHT : Direction.BOTTOM;
+      direction = widgetsRight.length < 2 ? Direction.right : Direction.bottom;
       isAdded = true;
       super.setState(() {});
     }
   }
 
   void buildRight(PlayerModel player) {
-    if (direction == Direction.RIGHT) {
+    if (direction == Direction.right) {
       widgetsRight.add(Positioned(
-        left: MediaQuery.of(context).size.width * 0.47,
         top: bottomRightTop += 125.00,
+        right: MediaQuery.of(context).size.width * 0.05,
         child: JogadorWidget(player: player),
       ));
       super.setState(() {});
-      direction = Direction.TOP;
+      direction = Direction.top;
       isAdded = true;
     }
   }
 
   void buildBottom(PlayerModel player) {
-    if (widgetsBottom.length >= 8) return;
-    if (direction == Direction.BOTTOM) {
+    if (widgetsBottom.length >= 4) return;
+    bottomLeftRight =
+        widgetsBottom.isEmpty ? bottomLeftRight : (bottomLeftRight + spacer);
+    if (direction == Direction.bottom) {
       widgetsBottom.add(Positioned(
-        top: MediaQuery.of(context).size.width * 0.24,
-        left: bottomLeftRight += 100.00,
+        top: MediaQuery.of(context).size.height * 0.55,
+        left: bottomLeftRight,
         child: JogadorWidget(player: player),
       ));
-      isAdded = true;
-      direction = widgetsLeft.length < 3 ? Direction.LEFT : Direction.TOP;
+      // isAdded = true;
+      direction = widgetsLeft.length < 3 ? Direction.left : Direction.top;
       super.setState(() {});
     }
   }
