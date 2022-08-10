@@ -29,12 +29,6 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
             },
           ),
           buildTextButton(
-            text: 'List Players',
-            function: () {
-              socketClient.send(destination: '/app/list');
-            },
-          ),
-          buildTextButton(
             text: "Remove player",
             function: () {
               if (gameProvider.players.isEmpty) return;

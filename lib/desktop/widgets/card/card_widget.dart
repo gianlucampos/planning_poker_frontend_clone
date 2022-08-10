@@ -19,6 +19,13 @@ class _CardWidgetState extends State<CardWidget> {
   bool isVoted = false;
 
   @override
+  void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     VotoProvider votoProvider =

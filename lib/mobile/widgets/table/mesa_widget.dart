@@ -16,14 +16,14 @@ class MesaWidget extends StatefulWidget {
 
 class _MesaWidgetState extends State<MesaWidget> {
   late ContadorProvider contador =
-      Provider.of<ContadorProvider>(context, listen: false);
+  Provider.of<ContadorProvider>(context, listen: false);
   late GameStatusProvider gameStatusProvider =
-      Provider.of<GameStatusProvider>(context, listen: false);
+  Provider.of<GameStatusProvider>(context, listen: false);
   late GameStatus gameStatus = gameStatusProvider.gameStatus;
 
   @override
   void setState(fn) {
-    if (mounted) {
+    if(mounted) {
       super.setState(fn);
     }
   }
@@ -60,42 +60,34 @@ class _MesaWidgetState extends State<MesaWidget> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 550,
       height: 200,
+      width: 200,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 150),
-        child: TextButton(
-          onPressed: statusController,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.blueGrey,
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            child: SizedBox(
-              width: 200,
-              height: 200,
-              child: Consumer<ContadorProvider>(
-                builder: (context, contadorProvider, widget) {
-                  return Center(
-                    child: Text(
-                      contadorProvider.isActive
-                          ? '${contadorProvider.segundos}'
-                          : '${gameStatus.value}',
-                      textScaleFactor: 1.5,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
+      child: TextButton(
+        onPressed: () {},
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.blueGrey,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          child: const SizedBox(
+            width: 100,
+            height: 100,
+            child: Center(
+              child: Text(
+                'Vote',
+                textScaleFactor: 1.5,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

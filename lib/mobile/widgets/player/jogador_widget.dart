@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../shared/models/player_model.dart';
+import '../../../shared/provider/rotate_card_provider.dart';
+import '../../../shared/widgets/rotate_widget.dart';
 
 class JogadorWidget extends StatelessWidget {
   final PlayerModel player;
@@ -9,14 +12,15 @@ class JogadorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool shouldFlip =
+    Provider.of<RotateCardProvider>(context, listen: true).shouldFlip();
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // cardBranco(),
-            cardVoto(),
+            RotateWidget(card: shouldFlip ? cardVoto() : cardBranco()),
             const SizedBox(height: 10),
             Text(
               player.name!,

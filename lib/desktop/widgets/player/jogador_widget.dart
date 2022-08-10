@@ -20,7 +20,7 @@ class JogadorWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RotateWidget(card: shouldFlip ? CardVoto() : CardBranco()),
+            RotateWidget(card: shouldFlip ? cardVoto() : cardBranco()),
             SizedBox(height: 15),
             Text(
               player.name!,
@@ -32,7 +32,7 @@ class JogadorWidget extends StatelessWidget {
   }
 
   //TODO: implementar 1 widget com herança
-  Widget CardVoto() {
+  Widget cardVoto() {
     return Container(
       width: 45,
       height: 70,
@@ -50,7 +50,7 @@ class JogadorWidget extends StatelessWidget {
     );
   }
 
-  Widget CardBranco() {
+  Widget cardBranco() {
     return Container(
       width: 45,
       height: 70,

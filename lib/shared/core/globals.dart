@@ -8,4 +8,4 @@ import 'web_socket_config.dart';
 GameProvider gameProvider = GameProvider();
 final socketClient = WebSocketConfig.stompClient;
 
-logger(String msg) => devtools.log(msg);
+logger(String msg) => devtools.log(msg, time: DateTime.now());

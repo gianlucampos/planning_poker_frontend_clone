@@ -9,10 +9,11 @@ enum Direction { TOP, BOTTOM, LEFT, RIGHT }
 
 Direction direction = Direction.TOP;
 bool isAdded = false;
-double topLeftRight = 0;
+double spacer = 70;
+double topLeftRight = 50;
 double topLeftBottom = 0;
 double bottomRightTop = 0;
-double bottomLeftRight = 0;
+double bottomLeftRight = 50;
 List<Widget> widgetsTop = [];
 List<Widget> widgetsBottom = [];
 List<Widget> widgetsLeft = [];
@@ -31,8 +32,9 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   @override
   void initState() {
     super.initState();
-    socketClient.activate();
+    socketClient.send(destination: '/app/list');
     gameProvider.addListener(() {
+      if(!this.mounted) return;
       setState(() {
         loadPlayers();
       });
@@ -43,14 +45,12 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        width: MediaQuery.of(context).size.width * 0.53,
         child: Stack(
           children: [
             Stack(children: widgetsTop),
-            Stack(children: widgetsLeft),
-            Stack(children: widgetsRight),
-            Stack(children: widgetsBottom),
+            // Stack(children: widgetsLeft),
+            // Stack(children: widgetsRight),
+            // Stack(children: widgetsBottom),
             Center(
               child: MesaWidget(),
             ),
@@ -105,9 +105,15 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   void buildTop(PlayerModel player) {
     if (widgetsTop.length >= 8) return;
+
+    double largura = MediaQuery.of(context).size.width;
+
     if (direction == Direction.TOP) {
+      topLeftRight =
+          widgetsTop.isEmpty ? topLeftRight : (topLeftRight + spacer);
       var p = Positioned(
-        left: topLeftRight += 100.00,
+        top: MediaQuery.of(context).size.height * 0.1,
+        left: largura * 0.1,
         child: JogadorWidget(player: player),
       );
       widgetsTop.add(p);

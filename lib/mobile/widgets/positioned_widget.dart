@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../desktop/widgets/table/mesa_widget.dart';
 import '../../shared/core/globals.dart';
 import '../../shared/models/player_model.dart';
 import 'player/jogador_widget.dart';
-import 'mesa/mesa_widget.dart';
 
 enum Direction { top, bottom, left, right }
 
@@ -32,8 +32,9 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   @override
   void initState() {
     super.initState();
-    socketClient.activate();
+    socketClient.send(destination: '/app/list');
     gameProvider.addListener(() {
+      if (!this.mounted) return;
       setState(() {
         loadPlayers();
       });
