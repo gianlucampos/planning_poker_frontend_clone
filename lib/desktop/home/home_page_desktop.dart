@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/core/globals.dart';
-import '../../shared/models/player_model.dart';
-import '../../shared/utils/custom_text_buttom.dart';
+import '../../shared/utils/custom_app_bar_widget.dart';
 import '../widgets/card/choose_card_widget.dart';
 import '../widgets/positioned_widget.dart';
 
@@ -16,43 +14,11 @@ class HomePageDesktop extends StatefulWidget {
 }
 
 class _HomePageDesktopState extends State<HomePageDesktop> {
+
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('$height X $width'),
-        actions: [
-          buildTextButton(
-            text: "Reset List",
-            function: () {
-              socketClient.send(destination: '/app/resetList');
-            },
-          ),
-          buildTextButton(
-            text: "Remove player",
-            function: () {
-              if (gameProvider.players.isEmpty) return;
-              PlayerModel removedPlayer = gameProvider.players.first;
-              socketClient.send(
-                  destination: '/app/unregister', body: removedPlayer.name);
-            },
-          ),
-          buildTextButton(
-            text: "Connect",
-            function: () {
-              socketClient.activate();
-            },
-          ),
-          buildTextButton(
-            text: "Disconnect",
-            function: () {
-              socketClient.deactivate();
-            },
-          ),
-        ],
-      ),
+      appBar: customAppBar(),
       body: PositionedWidget(),
       bottomNavigationBar: ChooseCardWidget(),
     );
