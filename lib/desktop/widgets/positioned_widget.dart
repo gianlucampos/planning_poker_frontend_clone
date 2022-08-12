@@ -9,11 +9,6 @@ enum Direction { TOP, BOTTOM, LEFT, RIGHT }
 
 Direction direction = Direction.TOP;
 bool isAdded = false;
-double spacer = 70;
-double topLeftRight = 50;
-double topLeftBottom = 0;
-double bottomRightTop = 0;
-double bottomLeftRight = 50;
 List<Widget> widgetsTop = [];
 List<Widget> widgetsBottom = [];
 List<Widget> widgetsLeft = [];
@@ -43,20 +38,27 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: widgetsTop,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(children: widgetsTop),
-            // Stack(children: widgetsLeft),
-            // Stack(children: widgetsRight),
-            // Stack(children: widgetsBottom),
-            Center(
-              child: MesaWidget(),
-            ),
+            Column(children: widgetsLeft),
+            MesaWidget(),
+            Column(children: widgetsRight),
           ],
         ),
-      ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: widgetsBottom,
+        ),
+      ],
     );
   }
 
@@ -73,10 +75,6 @@ class _PositionedWidgetState extends State<PositionedWidget> {
     playersScreen = [];
     direction = Direction.TOP;
     isAdded = false;
-    topLeftRight = 0;
-    topLeftBottom = 0;
-    bottomRightTop = 0;
-    bottomLeftRight = 0;
     widgetsTop = [];
     widgetsBottom = [];
     widgetsLeft = [];
@@ -106,17 +104,8 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   void buildTop(PlayerModel player) {
     if (widgetsTop.length >= 8) return;
 
-    double largura = MediaQuery.of(context).size.width;
-
     if (direction == Direction.TOP) {
-      topLeftRight =
-          widgetsTop.isEmpty ? topLeftRight : (topLeftRight + spacer);
-      var p = Positioned(
-        top: MediaQuery.of(context).size.height * 0.1,
-        left: largura * 0.1,
-        child: JogadorWidget(player: player),
-      );
-      widgetsTop.add(p);
+      widgetsTop.add(JogadorWidget(player: player));
       direction = Direction.BOTTOM;
       isAdded = true;
       super.setState(() {});
@@ -125,10 +114,7 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   void buildLeft(PlayerModel player) {
     if (direction == Direction.LEFT) {
-      widgetsLeft.add(Positioned(
-        top: topLeftBottom += 125.00,
-        child: JogadorWidget(player: player),
-      ));
+      widgetsLeft.add(JogadorWidget(player: player));
       direction = widgetsRight.length < 3 ? Direction.RIGHT : Direction.BOTTOM;
       isAdded = true;
       super.setState(() {});
@@ -137,11 +123,7 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   void buildRight(PlayerModel player) {
     if (direction == Direction.RIGHT) {
-      widgetsRight.add(Positioned(
-        left: MediaQuery.of(context).size.width * 0.47,
-        top: bottomRightTop += 125.00,
-        child: JogadorWidget(player: player),
-      ));
+      widgetsRight.add(JogadorWidget(player: player));
       super.setState(() {});
       direction = Direction.TOP;
       isAdded = true;
@@ -151,11 +133,7 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   void buildBottom(PlayerModel player) {
     if (widgetsBottom.length >= 8) return;
     if (direction == Direction.BOTTOM) {
-      widgetsBottom.add(Positioned(
-        top: MediaQuery.of(context).size.width * 0.24,
-        left: bottomLeftRight += 100.00,
-        child: JogadorWidget(player: player),
-      ));
+      widgetsBottom.add(JogadorWidget(player: player));
       isAdded = true;
       direction = widgetsLeft.length < 3 ? Direction.LEFT : Direction.TOP;
       super.setState(() {});
