@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:planning_poker_flutter/models/game_status.dart';
+
+import '../models/game_status.dart';
 
 class GameStatusProvider extends ChangeNotifier {
     GameStatus gameStatus = GameStatus.VOTING;

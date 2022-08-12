@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/models/game_status.dart';
-import 'package:planning_poker_flutter/provider/game_status_provider.dart';
-import 'package:planning_poker_flutter/provider/voto_provider.dart';
+import 'package:planning_poker_flutter/shared/models/game_status.dart';
+import 'package:planning_poker_flutter/shared/provider/game_status_provider.dart';
+import 'package:planning_poker_flutter/shared/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
 class CardWidget extends StatefulWidget {
@@ -17,6 +17,13 @@ class _CardWidgetState extends State<CardWidget> {
   Color _background = Colors.white;
   Color _textColor = Colors.blue;
   bool isVoted = false;
+
+  @override
+  void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   void initState() {

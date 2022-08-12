@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:planning_poker_flutter/models/player_model.dart';
-import 'package:planning_poker_flutter/widgets/rotate_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/rotate_card_provider.dart';
+import '../../../shared/models/player_model.dart';
+import '../../../shared/provider/rotate_card_provider.dart';
+import '../../../shared/widgets/rotate_widget.dart';
 
 class JogadorWidget extends StatelessWidget {
   final PlayerModel player;
 
-  const JogadorWidget({Key? key, required this.player})
-      : super(key: key);
+  const JogadorWidget({Key? key, required this.player}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class JogadorWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RotateWidget(card: shouldFlip ? CardVoto() : CardBranco()),
+            RotateWidget(card: shouldFlip ? cardVoto() : cardBranco()),
             SizedBox(height: 15),
             Text(
               player.name!,
@@ -33,7 +32,7 @@ class JogadorWidget extends StatelessWidget {
   }
 
   //TODO: implementar 1 widget com herança
-  Widget CardVoto() {
+  Widget cardVoto() {
     return Container(
       width: 45,
       height: 70,
@@ -51,7 +50,7 @@ class JogadorWidget extends StatelessWidget {
     );
   }
 
-  Widget CardBranco() {
+  Widget cardBranco() {
     return Container(
       width: 45,
       height: 70,
