@@ -18,9 +18,11 @@ class HomePageDesktop extends StatefulWidget {
 class _HomePageDesktopState extends State<HomePageDesktop> {
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Free Planning Poker'),
+        title: Text('$height X $width'),
         actions: [
           buildTextButton(
             text: "Reset List",

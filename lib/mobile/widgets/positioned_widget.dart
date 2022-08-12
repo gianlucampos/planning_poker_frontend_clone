@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../desktop/widgets/table/mesa_widget.dart';
 import '../../shared/core/globals.dart';
 import '../../shared/models/player_model.dart';
 import 'player/jogador_widget.dart';
+import 'table/mesa_widget.dart';
 
-enum Direction { top, bottom, left, right }
+enum Direction { TOP, BOTTOM, LEFT, RIGHT }
 
-Direction direction = Direction.top;
+Direction direction = Direction.TOP;
 bool isAdded = false;
-double spacer = 70;
-double topLeftRight = 50;
-double topLeftBottom = 0;
-double bottomRightTop = 0;
-double bottomLeftRight = 50;
 List<Widget> widgetsTop = [];
 List<Widget> widgetsBottom = [];
 List<Widget> widgetsLeft = [];
@@ -34,7 +29,7 @@ class _PositionedWidgetState extends State<PositionedWidget> {
     super.initState();
     socketClient.send(destination: '/app/list');
     gameProvider.addListener(() {
-      if (!this.mounted) return;
+      if(!this.mounted) return;
       setState(() {
         loadPlayers();
       });
@@ -43,18 +38,27 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        child: Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: widgetsTop,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Stack(children: widgetsTop),
-            Stack(children: widgetsLeft),
-            Stack(children: widgetsRight),
-            Stack(children: widgetsBottom),
-            const Center(child: MesaWidget()),
+            Column(children: widgetsLeft),
+            MesaWidget(),
+            Column(children: widgetsRight),
           ],
         ),
-      ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: widgetsBottom,
+        ),
+      ],
     );
   }
 
@@ -69,12 +73,8 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   void reset() {
     playersScreen = [];
-    direction = Direction.top;
+    direction = Direction.TOP;
     isAdded = false;
-    topLeftRight = 50;
-    topLeftBottom = 0;
-    bottomRightTop = 0;
-    bottomLeftRight = 50;
     widgetsTop = [];
     widgetsBottom = [];
     widgetsLeft = [];
@@ -103,59 +103,39 @@ class _PositionedWidgetState extends State<PositionedWidget> {
 
   void buildTop(PlayerModel player) {
     if (widgetsTop.length >= 5) return;
-    if (direction == Direction.top) {
-      topLeftRight =
-          widgetsTop.isEmpty ? topLeftRight : (topLeftRight + spacer);
 
-      var widget = Positioned(
-        top: MediaQuery.of(context).size.height * 0.05,
-        left: topLeftRight,
-        child: JogadorWidget(player: player),
-      );
-      widgetsTop.add(widget);
-      direction = Direction.bottom;
+    if (direction == Direction.TOP) {
+      widgetsTop.add(JogadorWidget(player: player));
+      direction = Direction.BOTTOM;
       isAdded = true;
       super.setState(() {});
     }
   }
 
   void buildLeft(PlayerModel player) {
-    if (direction == Direction.left) {
-      widgetsLeft.add(Positioned(
-        top: topLeftBottom += 125.00,
-        child: JogadorWidget(player: player),
-      ));
-      direction = widgetsRight.length < 2 ? Direction.right : Direction.bottom;
+    if (direction == Direction.LEFT) {
+      widgetsLeft.add(JogadorWidget(player: player));
+      direction = widgetsRight.length < 2 ? Direction.RIGHT : Direction.BOTTOM;
       isAdded = true;
       super.setState(() {});
     }
   }
 
   void buildRight(PlayerModel player) {
-    if (direction == Direction.right) {
-      widgetsRight.add(Positioned(
-        top: bottomRightTop += 125.00,
-        right: MediaQuery.of(context).size.width * 0.05,
-        child: JogadorWidget(player: player),
-      ));
+    if (direction == Direction.RIGHT) {
+      widgetsRight.add(JogadorWidget(player: player));
       super.setState(() {});
-      direction = Direction.top;
+      direction = Direction.TOP;
       isAdded = true;
     }
   }
 
   void buildBottom(PlayerModel player) {
     if (widgetsBottom.length >= 4) return;
-    bottomLeftRight =
-        widgetsBottom.isEmpty ? bottomLeftRight : (bottomLeftRight + spacer);
-    if (direction == Direction.bottom) {
-      widgetsBottom.add(Positioned(
-        top: MediaQuery.of(context).size.height * 0.55,
-        left: bottomLeftRight,
-        child: JogadorWidget(player: player),
-      ));
-      // isAdded = true;
-      direction = widgetsLeft.length < 3 ? Direction.left : Direction.top;
+    if (direction == Direction.BOTTOM) {
+      widgetsBottom.add(JogadorWidget(player: player));
+      isAdded = true;
+      direction = widgetsLeft.length < 3 ? Direction.LEFT : Direction.TOP;
       super.setState(() {});
     }
   }

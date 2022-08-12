@@ -19,6 +19,7 @@ class AppWidget extends StatelessWidget {
 class ResponsiveLayout extends StatelessWidget {
   final Widget desktop;
   final Widget mobile;
+  static const mobileHeight = 780;
   static const mobileWidth = 600;
 
   const ResponsiveLayout({
@@ -30,10 +31,10 @@ class ResponsiveLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > mobileWidth) {
-          return desktop;
+        if (constraints.maxWidth <= mobileWidth || constraints.maxHeight <= mobileHeight) {
+          return mobile;
         }
-        return mobile;
+        return desktop;
       },
     );
   }
