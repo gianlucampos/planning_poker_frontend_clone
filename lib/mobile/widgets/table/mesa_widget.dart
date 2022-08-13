@@ -16,14 +16,14 @@ class MesaWidget extends StatefulWidget {
 
 class _MesaWidgetState extends State<MesaWidget> {
   late ContadorProvider contador =
-  Provider.of<ContadorProvider>(context, listen: false);
+      Provider.of<ContadorProvider>(context, listen: false);
   late GameStatusProvider gameStatusProvider =
-  Provider.of<GameStatusProvider>(context, listen: false);
+      Provider.of<GameStatusProvider>(context, listen: false);
   late GameStatus gameStatus = gameStatusProvider.gameStatus;
 
   @override
   void setState(fn) {
-    if(mounted) {
+    if (mounted) {
       super.setState(fn);
     }
   }
@@ -60,7 +60,6 @@ class _MesaWidgetState extends State<MesaWidget> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,24 +70,30 @@ class _MesaWidgetState extends State<MesaWidget> {
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: TextButton(
-        onPressed: () {},
+        onPressed: statusController,
         child: Container(
           decoration: const BoxDecoration(
             color: Colors.blueGrey,
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
-          child: const SizedBox(
+          child: SizedBox(
             width: 100,
             height: 100,
-            child: Center(
-              child: Text(
-                'Vote',
-                textScaleFactor: 1.5,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            child: Consumer<ContadorProvider>(
+              builder: (context, contadorProvider, widget) {
+                return Center(
+                  child: Text(
+                    contadorProvider.isActive
+                        ? '${contadorProvider.segundos}'
+                        : '${gameStatus.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ),

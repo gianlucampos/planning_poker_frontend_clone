@@ -20,7 +20,7 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget desktop;
   final Widget mobile;
   static const mobileHeight = 780;
-  static const mobileWidth = 600;
+  static const mobileWidth = 750;
 
   const ResponsiveLayout({
     required this.desktop,
