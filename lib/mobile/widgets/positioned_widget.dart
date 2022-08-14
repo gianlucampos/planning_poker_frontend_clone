@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
+import '../../shared/widgets/add_player_modal.dart';
 import '../../shared/core/globals.dart';
 import '../../shared/models/player_model.dart';
 import 'player/jogador_widget.dart';
@@ -27,6 +29,13 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   @override
   void initState() {
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback(
+          (_) => showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => AddPlayerModal(),
+      ),
+    );
     socketClient.send(destination: '/app/list');
     gameProvider.addListener(() {
       if(!this.mounted) return;

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../core/globals.dart';
+import '../core/web_socket_config.dart';
 import '../models/player_model.dart';
 
 //TODO transformar em classe
 AppBar customAppBar() {
-  final RESET = '/app/resetList';
-  final UNREGISTER = '/app/unregister';
-  final REGISTER = '/app/register';
-
   return AppBar(
     title: Text('Free Planning Poker'),
     actions: [
