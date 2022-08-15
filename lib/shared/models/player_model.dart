@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class PlayerModel {
   final String? name;
   final String? vote;
@@ -23,5 +22,7 @@ class PlayerModel {
   }
 
   @override
-  String toString() => '\nPlayerModel(name: $name, vote: $vote)';
+  String toString() {
+    return 'PlayerModel{' + ' name: $name,' + ' vote: $vote,' + '}';
+  }
 }

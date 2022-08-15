@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/shared/core/app_text_styles.dart';
 import 'package:planning_poker_flutter/shared/core/globals.dart';
+import 'package:planning_poker_flutter/shared/models/player_model.dart';
+import 'package:planning_poker_flutter/shared/repositories/local_storedge_repository.dart';
 
 import '../core/web_socket_config.dart';
 
@@ -16,6 +18,16 @@ class _AddPlayerModalState extends State<AddPlayerModal> {
   bool _isSpectador = false;
   bool _isNotValid = false;
   final _textController = TextEditingController();
+  final localStoredge = LocalStoredgeRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var logged = await localStoredge.getPlayerLogged();
+      if (logged != null) Navigator.of(context).pop();
+    });
+  }
 
   @override
   void dispose() {
@@ -78,9 +90,11 @@ class _AddPlayerModalState extends State<AddPlayerModal> {
                         if (_isNotValid) {
                           return;
                         }
-                        Navigator.of(context).pop();
                         socketClient.send(
                             destination: REGISTER, body: _textController.text);
+                        localStoredge.addPlayer(PlayerModel(
+                            name: _textController.text, vote: 'PP'));
+                        Navigator.of(context).pop();
                       });
                     },
                     child: Text('Continue to game',
