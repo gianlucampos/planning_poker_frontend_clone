@@ -8,6 +8,10 @@ import 'package:stomp_dart_client/stomp_frame.dart';
 import '../models/player_model.dart';
 import 'globals.dart';
 
+final RESET = '/app/resetList';
+final UNREGISTER = '/app/unregister';
+final REGISTER = '/app/register';
+
 class WebSocketConfig {
   static final _socketUrl =
       'https://planning-poker-spring.herokuapp.com/ws-message';
