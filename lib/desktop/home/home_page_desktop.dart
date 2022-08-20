@@ -1,6 +1,10 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/shared/core/globals.dart';
 
 import '../../shared/utils/custom_app_bar_widget.dart';
+import '../../shared/widgets/loading_widget.dart';
 import '../widgets/card/choose_card_widget.dart';
 import '../widgets/positioned_widget.dart';
 
@@ -19,7 +23,7 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(),
-      body: PositionedWidget(),
+     body: LoadingWidget(child: PositionedWidget()),
       bottomNavigationBar: ChooseCardWidget(),
     );
   }

@@ -19,4 +19,9 @@ class LocalStoredgeRepository {
     var map = jsonDecode(userJson) as Map<String, dynamic>;
     return PlayerModel.fromMap(map);
   }
+
+  Future<void> clearData() async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.clear();
+  }
 }
