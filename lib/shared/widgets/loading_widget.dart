@@ -4,6 +4,8 @@ import 'package:planning_poker_flutter/shared/repositories/local_storedge_reposi
 import 'package:planning_poker_flutter/shared/repositories/player_repository.dart';
 import 'package:planning_poker_flutter/shared/repositories/socket_repository.dart';
 
+import '../core/globals.dart';
+
 class LoadingWidget extends StatelessWidget {
   final Widget child;
   final PlayerRepository repository = PlayerRepository(Dio());
@@ -13,7 +15,6 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      //TODO utilizar um healthCheck pra ver se servidor está respondendo
       future: loadPlayers(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -25,19 +26,27 @@ class LoadingWidget extends StatelessWidget {
             child: Text(snapshot.error.toString(), textScaleFactor: 2),
           );
         }
-        return const Center(child: CircularProgressIndicator());
+        return Center(
+          child: SizedBox(
+            height: 50,
+            width: 50,
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }
 
   Future loadPlayers() {
     return Future(() async {
+      await Future.delayed(Duration(seconds: 3));
       await repository.listPlayers();
       var localStoradge = LocalStoredgeRepository();
       var playerLogged = await localStoradge.getPlayerLogged();
-      if(playerLogged != null) {
+      if (playerLogged != null) {
         var socket = SocketRepository();
         socket.addPlayer(playerLogged);
+        logger('${playerLogged.name} entrou no jogo');
       }
     });
   }

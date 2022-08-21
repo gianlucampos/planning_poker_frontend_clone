@@ -33,7 +33,6 @@ class _HomePageDesktopState extends State<HomePageDesktop> {
   }
 
   void beforeUnload(Event e) {
-    logger('saiu do jogo');
     LocalStoredgeRepository localStoredge = LocalStoredgeRepository();
     SocketRepository socket = SocketRepository();
     localStoredge.getPlayerLogged().then((user) {

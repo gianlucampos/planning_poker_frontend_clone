@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planning_poker_flutter/shared/core/app_text_styles.dart';
-import 'package:planning_poker_flutter/shared/core/globals.dart';
-import 'package:planning_poker_flutter/shared/models/player_model.dart';
 import 'package:planning_poker_flutter/shared/repositories/local_storedge_repository.dart';
 
+import '../core/globals.dart';
 import '../core/web_socket_config.dart';
+import '../models/player_model.dart';
 
 class AddPlayerModal extends StatefulWidget {
   const AddPlayerModal({Key? key}) : super(key: key);
