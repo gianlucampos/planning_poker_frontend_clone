@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/shared/core/globals.dart';
 import 'package:planning_poker_flutter/shared/models/game_status.dart';
-import 'package:planning_poker_flutter/shared/provider/game_status_provider.dart';
 import 'package:planning_poker_flutter/shared/provider/voto_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +38,7 @@ class _CardWidgetState extends State<CardWidget> {
           _background = Colors.white;
           _textColor = Colors.blue;
         }
-        Provider.of<GameStatusProvider>(context, listen: false).changeStatus(
+        gameProvider.changeStatus(
             votoProvider.voto != null
                 ? GameStatus.REVEAL_CARDS
                 : GameStatus.VOTING);

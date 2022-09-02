@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../shared/core/globals.dart';
 import '../../../shared/models/game_status.dart';
 import '../../../shared/provider/contador_provider.dart';
-import '../../../shared/provider/game_status_provider.dart';
 import '../../../shared/provider/rotate_card_provider.dart';
 import '../../../shared/provider/voto_provider.dart';
 
@@ -17,9 +17,6 @@ class MesaWidget extends StatefulWidget {
 class _MesaWidgetState extends State<MesaWidget> {
   late ContadorProvider contador =
       Provider.of<ContadorProvider>(context, listen: false);
-  late GameStatusProvider gameStatusProvider =
-      Provider.of<GameStatusProvider>(context, listen: false);
-  late GameStatus gameStatus = gameStatusProvider.gameStatus;
 
   @override
   void setState(fn) {
@@ -31,29 +28,27 @@ class _MesaWidgetState extends State<MesaWidget> {
   @override
   void initState() {
     super.initState();
-    gameStatusProvider.addListener(() {
-      setState(() {
-        gameStatus = gameStatusProvider.gameStatus;
-      });
+    gameProvider.addListener(() {
+      setState(() {});
     });
     contador.addListener(() {
       if (contador.segundos == 0) {
-        gameStatusProvider.changeStatus(GameStatus.NEW_GAME);
+        gameProvider.changeStatus(GameStatus.NEW_GAME);
         Provider.of<RotateCardProvider>(context, listen: false).revelarCard();
       }
     });
   }
 
   void statusController() {
-    switch (gameStatus) {
+    switch (gameProvider.gameStatus) {
       case GameStatus.VOTING:
-        gameStatusProvider.changeStatus(GameStatus.REVEAL_CARDS);
+        gameProvider.changeStatus(GameStatus.REVEAL_CARDS);
         break;
       case GameStatus.REVEAL_CARDS:
         contador.start();
         break;
       case GameStatus.NEW_GAME:
-        gameStatusProvider.changeStatus(GameStatus.VOTING);
+        gameProvider.changeStatus(GameStatus.VOTING);
         Provider.of<RotateCardProvider>(context, listen: false).reset();
         Provider.of<VotoProvider>(context, listen: false).reset();
         break;
@@ -85,7 +80,7 @@ class _MesaWidgetState extends State<MesaWidget> {
                   child: Text(
                     contadorProvider.isActive
                         ? '${contadorProvider.segundos}'
-                        : '${gameStatus.value}',
+                        : '${gameProvider.gameStatus.value}',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:planning_poker_flutter/shared/core/globals.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/models/game_status.dart';
 import '../../../shared/provider/contador_provider.dart';
-import '../../../shared/provider/game_status_provider.dart';
 import '../../../shared/provider/rotate_card_provider.dart';
 import '../../../shared/provider/voto_provider.dart';
 
@@ -17,9 +17,7 @@ class MesaWidget extends StatefulWidget {
 class _MesaWidgetState extends State<MesaWidget> {
   late ContadorProvider contador =
       Provider.of<ContadorProvider>(context, listen: false);
-  late GameStatusProvider gameStatusProvider =
-      Provider.of<GameStatusProvider>(context, listen: false);
-  late GameStatus gameStatus = gameStatusProvider.gameStatus;
+  late GameStatus gameStatus = gameProvider.gameStatus;
 
   @override
   void setState(fn) {
@@ -31,14 +29,14 @@ class _MesaWidgetState extends State<MesaWidget> {
   @override
   void initState() {
     super.initState();
-    gameStatusProvider.addListener(() {
+    gameProvider.addListener(() {
       setState(() {
-        gameStatus = gameStatusProvider.gameStatus;
+        gameStatus = gameProvider.gameStatus;
       });
     });
     contador.addListener(() {
       if (contador.segundos == 0) {
-        gameStatusProvider.changeStatus(GameStatus.NEW_GAME);
+        gameProvider.changeStatus(GameStatus.NEW_GAME);
         Provider.of<RotateCardProvider>(context, listen: false).revelarCard();
       }
     });
@@ -47,13 +45,13 @@ class _MesaWidgetState extends State<MesaWidget> {
   void statusController() {
     switch (gameStatus) {
       case GameStatus.VOTING:
-        gameStatusProvider.changeStatus(GameStatus.REVEAL_CARDS);
+        gameProvider.changeStatus(GameStatus.REVEAL_CARDS);
         break;
       case GameStatus.REVEAL_CARDS:
         contador.start();
         break;
       case GameStatus.NEW_GAME:
-        gameStatusProvider.changeStatus(GameStatus.VOTING);
+        gameProvider.changeStatus(GameStatus.VOTING);
         Provider.of<RotateCardProvider>(context, listen: false).reset();
         Provider.of<VotoProvider>(context, listen: false).reset();
         break;

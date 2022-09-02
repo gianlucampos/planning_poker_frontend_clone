@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../shared/core/globals.dart';
 import '../../../shared/models/game_status.dart';
-import '../../../shared/provider/game_status_provider.dart';
 import '../../../shared/provider/voto_provider.dart';
 
 class CardWidget extends StatefulWidget {
@@ -45,7 +45,7 @@ class _CardWidgetState extends State<CardWidget> {
           _background = Colors.white;
           _textColor = Colors.blue;
         }
-        Provider.of<GameStatusProvider>(context, listen: false).changeStatus(
+        gameProvider.changeStatus(
             votoProvider.voto != null
                 ? GameStatus.REVEAL_CARDS
                 : GameStatus.VOTING);

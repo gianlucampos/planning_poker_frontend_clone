@@ -30,7 +30,7 @@ class _PositionedWidgetState extends State<PositionedWidget> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback(
-          (_) => showDialog(
+      (_) => showDialog(
         barrierDismissible: false,
         context: context,
         builder: (_) => AddPlayerModal(),
@@ -38,7 +38,6 @@ class _PositionedWidgetState extends State<PositionedWidget> {
     );
     socketClient.send(destination: '/app/list');
     gameProvider.addListener(() {
-      if(!this.mounted) return;
       setState(() {
         loadPlayers();
       });
